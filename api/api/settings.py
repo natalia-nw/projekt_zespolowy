@@ -27,6 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+]
+CORS_ALLOW_CREDENTIALS = True
+
 
 # Application definition
 
@@ -37,10 +43,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
+    'django.contrib.sites',
+    'reversion',
+    'allauth',
+    'allauth.account',
+    'dj_rest_auth',
     'lendapp'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -101,13 +116,39 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SITE_ID = 1
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# custom user model
+AUTH_USER_MODEL = 'lendapp.User'
+
+# django-allauth
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # do testow
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/?verification=1'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/?verification=1'
+
+# dj-rest-auth
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'lendapp.serializers.CustomRegisterSerializer'
+}
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'lendapp.serializers.CustomLoginSerializer',
+    'PASSWORD_CHANGE_SERIALIZER': 'lendapp.serializers.CustomPasswordChangeSerializer'
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pl-pl'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Warsaw'
 
 USE_I18N = True
 
