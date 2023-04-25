@@ -1,14 +1,23 @@
 import React from 'react';
+import {BrowserRouter, Routes, Route } from "react-router-dom";
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+//import "https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css";
+import './styles/app.css';
+import Home from './routes/Home';
+import LogPage from './routes/LogPage';
+import RegPage from './routes/RegPage';
+import Reminder from './routes/Reminder';
 import reportWebVitals from './reportWebVitals';
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <BrowserRouter>
+    <Routes>
+      <Route path='/' element={<Home/>}/>
+      <Route path='/auth/login' element={<LogPage/>}/>
+      <Route path='/auth/registration' element={<RegPage/>}/>
+      <Route path='/reminder' element={<Reminder/>}/>
+    </Routes>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
