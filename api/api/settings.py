@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'dj_rest_auth',
+    'dj_rest_auth.registration',
     'lendapp'
 ]
 
@@ -116,6 +117,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = '/auth/login'
+LOGIN_REDIRECT_URL = '/'
+
 SITE_ID = 1
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -131,16 +135,17 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 # ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'  # do testow
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/?verification=1'
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/?verification=1'
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 # dj-rest-auth
-REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'lendapp.serializers.CustomRegisterSerializer'
-}
-REST_AUTH_SERIALIZERS = {
+REST_AUTH = {
+    'REGISTER_SERIALIZER': 'lendapp.serializers.CustomRegisterSerializer',
     'LOGIN_SERIALIZER': 'lendapp.serializers.CustomLoginSerializer',
-    'PASSWORD_CHANGE_SERIALIZER': 'lendapp.serializers.CustomPasswordChangeSerializer'
+    'USER_DETAILS_SERIALIZER': 'lendapp.serializers.UserSerializer',
+    'OLD_PASSWORD_FIELD_ENABLED': True
 }
 
 # Internationalization

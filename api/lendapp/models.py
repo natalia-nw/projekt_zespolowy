@@ -7,18 +7,19 @@ import reversion
 
 
 class User(AbstractUser):
+    username = None
     email = models.EmailField(_('adres e-mail'), unique=True)
     phone = models.CharField(max_length=11, blank=True)
     avatar = models.ImageField(upload_to='avatars/')
 
     USERNAME_FIELD = 'email'
+    EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
 
     def __str__(self):
         return self.email
-
 
 @reversion.register
 class Item(models.Model):
@@ -39,13 +40,24 @@ class Image(models.Model):
 
 @reversion.register
 class Deal(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     date_start = models.DateField(auto_now_add=True)
     date_stop = models.DateField(blank=True, null=True)
-    lender = models.ForeignKey(User, on_delete=models.CASCADE)
+    lender = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    lender_desc = models.TextField(blank=True)
 
     def __str__(self):
         return self.item.name
+
+
+class Contact(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cauthor')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    first_name = models.CharField(_("imię"), max_length=150, blank=True)
+    last_name = models.CharField(_("nazwisko"), max_length=150, blank=True)
+    phone = models.CharField(max_length=11, blank=True)
+    desc = models.TextField(blank=True)
 
 
 # class Post(models.Model):
