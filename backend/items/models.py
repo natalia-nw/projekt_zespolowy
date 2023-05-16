@@ -1,15 +1,19 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
+
+from items.choices import Category
+
 User = get_user_model()
 
 
-# @reversion.register
 class Item(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(verbose_name=_("Nazwa"), max_length=255)
-    desc = models.TextField(verbose_name=_("Opis"), max_length=9000)
+    desc = models.TextField(verbose_name=_("Opis (widoczny dla wypożyczających)"), blank=True, max_length=9000)
+    priv_desc = models.TextField(verbose_name=_("Prywatny opis"), blank=True, max_length=9000)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.CharField(verbose_name=_("Kategoria"), choices=Category.choices,
+                                blank=True, null=True, max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

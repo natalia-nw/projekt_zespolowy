@@ -131,9 +131,9 @@ DJOSER = {
     "SEND_CONFIRMATION_EMAIL": True,
     "SET_USERNAME_RETYPE": True,
     "SET_PASSWORD_RETYPE": True,
-    "PASSWORD_RESET_CONFIRM_URL": "#/password-reset/{uid}/{token}",
-    "USERNAME_RESET_CONFIRM_URL": "#/email-reset/{uid}/{token}",
-    "ACTIVATION_URL": "#/activate/{uid}/{token}",
+    "PASSWORD_RESET_CONFIRM_URL": "/password-reset/{uid}/{token}",
+    "USERNAME_RESET_CONFIRM_URL": "/email-reset/{uid}/{token}",
+    "ACTIVATION_URL": "/activate/{uid}/{token}",
     "SEND_ACTIVATION_EMAIL": True,
     "SERIALIZERS": {
         "user_create": "users.serializers.CustomUserSerializer",
@@ -164,7 +164,6 @@ STATIC_URL = "/static/"
 # Media Files
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 MEDIA_URL = "/media/"
-DEFAULT_FILE_STORAGE = "backend.utils.storage.CustomStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -176,7 +175,7 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticatedOrReadOnly"
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.TokenAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
     ),
     "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",

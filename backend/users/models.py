@@ -1,7 +1,52 @@
-from django.contrib.auth.models import AbstractUser, Group, UserManager
+from django.contrib.auth.models import AbstractUser, Group
 from django.db import models
+from django.contrib.auth.models import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
+
+
+class CustomUserManager(BaseUserManager):
+    use_in_migrations = True
+
+    def _create_user(self, email, password, **extra_fields):
+        if not email:
+            raise ValueError("Users require an email field")
+        email = self.normalize_email(email)
+        if type is not None:
+            user = self.model(email=email, type=type, **extra_fields)
+        else:
+            user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, email, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_superuser", False)
+        if type is not None:
+            return self._create_user(email, password, **extra_fields)
+        else:
+            return self._create_user(email, password, **extra_fields)
+
+    def _create_superuser(self, email, password, **extra_fields):
+        if not email:
+            raise ValueError("Users require an email field")
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
+
+        return self._create_superuser(email, password, **extra_fields)
 
 
 class User(AbstractUser):
@@ -11,7 +56,7 @@ class User(AbstractUser):
     bio = models.CharField(verbose_name=_("Biogram"), max_length=200, blank=True)
     image = models.ImageField(verbose_name=_("Zdjęcie"), blank=True, upload_to='avatars/')
 
-    objects = UserManager()
+    objects = CustomUserManager()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
