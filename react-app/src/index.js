@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Routes, Route } from "react-router-dom";
 import ReactDOM from 'react-dom/client';
-//import "https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css";
+import '@picocss/pico';
 import './styles/app.css';
 import Home from './routes/Home';
 import LogPage from './routes/LogPage';

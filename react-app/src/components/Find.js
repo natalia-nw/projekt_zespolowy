@@ -1,9 +1,10 @@
 const Find = () => {
     return (
-        <form>
-            <input type="text"/>
-            <button>Szukaj</button>
-        </form>
+        <main class="container">
+            <form>
+                <input type="search" name="search"/>
+            </form>
+        </main>
     )
 }
 

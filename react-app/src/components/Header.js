@@ -1,6 +1,3 @@
-import '../styles/app.css';
-
-
 const Header = ({h1, h2}) => {
     return (
         <hgroup>

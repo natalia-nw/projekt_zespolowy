@@ -1,4 +1,5 @@
 import NavBar from "../components/NavBar";
+import Header from "../components/Header";
 
 const Reminder = () => {
     return (
@@ -8,10 +9,7 @@ const Reminder = () => {
     <main class="container">
       <article>
         <div>
-          <hgroup>
-            <h1>Przypomnienie hasła</h1>
-            <h2>Podaj swój adres e-mail, a my wyślemy ci nowe hasło!</h2>
-          </hgroup>
+          <Header h1={"Przypomnienie hasła"} h2={"Podaj swój adres e-mail, a my wyślemy ci nowe hasło!"}/>
           <form>
             <input
               type="text"
