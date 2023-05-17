@@ -1,3 +1,66 @@
-from django.shortcuts import render
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
-# Create your views here.
+from items.models import Item
+from items.permissions import ItemAccess
+from items.serializers import ItemSerializer, UserItemSerializer, UserItemCreateSerializer
+
+
+class ItemList(generics.ListCreateAPIView):
+    serializer_class = ItemSerializer
+    name = "items"
+    search_fields = ["name", "category"]
+    ordering_fields = ["id", "name", "category", "created_at", "updated_at"]
+    permission_classes = [IsAuthenticated, ItemAccess]
+
+    def get_serializer_class(self):
+        if self.request.user.is_staff:
+            return ItemSerializer
+        return UserItemCreateSerializer
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Item.objects.all()
+        return Item.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        if not self.request.user.is_staff:
+            serializer.validated_data["user"] = self.request.user
+        serializer.save()
+
+
+class ItemPublicList(generics.ListAPIView):
+    serializer_class = ItemSerializer
+    name = "items"
+    search_fields = ["name", "category"]
+    ordering_fields = ["id", "name", "category", "created_at", "updated_at"]
+    permission_classes = [AllowAny]
+
+    def get_serializer_class(self):
+        if self.request.user.is_staff:
+            return ItemSerializer
+        return UserItemSerializer
+
+    def get_queryset(self):
+        return Item.objects.filter(public=True)
+
+
+class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = UserItemSerializer
+    name = "item-detail"
+    permission_classes = [ItemAccess]
+
+    def get_serializer_class(self):
+        if self.request.user.is_staff:
+            return ItemSerializer
+        return UserItemSerializer
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Item.objects.all()
+        if self.request.user.is_authenticated:
+            qs1 = Item.objects.filter(user=self.request.user)
+        else:
+            qs1 = Item.objects.none()
+        qs2 = Item.objects.filter(public=True)
+        return qs1 | qs2

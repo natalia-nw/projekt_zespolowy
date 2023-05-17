@@ -9,11 +9,12 @@ User = get_user_model()
 
 class Item(models.Model):
     name = models.CharField(verbose_name=_("Nazwa"), max_length=255)
-    desc = models.TextField(verbose_name=_("Opis (widoczny dla wypożyczających)"), blank=True, max_length=9000)
+    desc = models.TextField(verbose_name=_("Opis"), blank=True, max_length=9000)
     priv_desc = models.TextField(verbose_name=_("Prywatny opis"), blank=True, max_length=9000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.CharField(verbose_name=_("Kategoria"), choices=Category.choices,
                                 blank=True, null=True, max_length=50)
+    public = models.BooleanField(verbose_name=_("Ogłoszenie publiczne"),default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -67,7 +67,7 @@ class User(AbstractUser):
         ordering = ["id"]
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"({self.id}) {self.email} {self.first_name} {self.last_name}"
 
 
 # class Group(Group):  # Proxy model to display the default Group model in users page
