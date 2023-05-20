@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # Local apps
     'users',
     'items',
+    'agreement',
     # Third party apps
     'rest_framework',
     'rest_framework.authtoken',
