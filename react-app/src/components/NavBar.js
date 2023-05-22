@@ -1,9 +1,15 @@
 const NavBar = () => {
     return (
-    <nav class="container-fluid">
+    <nav>
         <ul>
             <li>
                 <a href="/" class="contrast" onclick="event.preventDefault()"><strong>Strona główna</strong></a>
+            </li>
+            <li>
+                <a href="/my_hires" class="contrast" onclick="event.preventDefault()">Moje wypożyczenia</a>
+            </li>
+            <li>
+                <a href="/my_items" class="contrast" onclick="event.preventDefault()">Moje przedmioty</a>
             </li>
         </ul>
         <ul>

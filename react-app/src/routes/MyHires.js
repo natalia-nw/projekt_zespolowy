@@ -1,22 +1,20 @@
 import Element from "../components/Element";
-import Find from "../components/Find";
 import Header from "../components/Header";
-import odkurzacz from "../img/odkurzacz.jpg"
+import odkurzacz from "../img/odkurzacz.jpg";
 
-const Home = () => {
+const MyHires = () => {
     return (
         <>
-            <h1>Ogłoszenia</h1>
-            <Find/>
+            <Header h1={"Moje wypożyczenia"}/>
             <Element>
                 <Header h2={"Odkurzacz"}/>
                 <img src={odkurzacz} alt='obrazek'/>
                 <div class='hire-item'>
-                    <p> Wypożyczę odkurzacz w dobrym stanie na 2 miesiące.</p>
+                    <p> Dla: Jan Kowalski <br/>Do: 06-06-2023</p>
                 </div>
             </Element>
         </>
     );
 }
 
-export default Home;
+export default MyHires;

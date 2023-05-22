@@ -1,10 +1,30 @@
-body {
+nav {
+  padding-left: 2%;
+  padding-right: 2%;
+  padding-bottom: 2%;
+}
+.main-container {
   padding-left: 5%;
   padding-right: 5%;
 }
 .container {
   padding-left: 15%;
   padding-right: 15%;
+}
+.container-fluid {
+  padding-left: 25%;
+  padding-right: 25%;
+}
+.article img {
+  align-items: start;
+}
+img {
+  float: left;
+  width: 150px;
+  height: 250px;
+}
+article p {
+  text-align: right;
 }
 body>main {
     display: flex;
