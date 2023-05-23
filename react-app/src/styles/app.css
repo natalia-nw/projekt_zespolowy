@@ -1,94 +1,56 @@
-body {
-    position: relative;
-    width: 1440px;
-    height: 1024px;
-
-    background: #DFC38B;
+nav {
+  padding-left: 2%;
+  padding-right: 2%;
+  padding-bottom: 2%;
 }
-
-header {
-    position: absolute;
-    width: 568px;
-    height: 147px;
-    left: 433px;
-    top: 48px;
-
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 64px;
-    line-height: 77px;
-    text-align: center;
-
-    color: #000000;
+.main-container {
+  padding-left: 5%;
+  padding-right: 5%;
 }
-.log-form {
-    padding-left: 362px;
-    padding-top: 204px;
+.container {
+  padding-left: 15%;
+  padding-right: 15%;
 }
-label {
-    width: 430px;
-    height: 46px;
-
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 28px;
-    line-height: 34px;
-
-    color: #000000;
+.container-fluid {
+  padding-left: 25%;
+  padding-right: 25%;
 }
-input {
-    box-sizing: border-box;
-
-    width: 716px;
-    height: 112px;
-    font-size: 48px;
-    margin-bottom: 54px;
-
-    background: #CA824E;
-    border: 1px solid #82530C;
-    border-radius: 10px;
+.article img {
+  align-items: start;
 }
-button {
-    width: 548px;
-    height: 111px;
-    margin-left: 70px;
-    margin-top: 20px;
-    padding-left: 180px;
-    margin-bottom: 24px;
-
-    background: #BF5A11;
-    border-radius: 15px;
-
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 40px;
-    line-height: 48px;
+img {
+  float: left;
+  width: 150px;
+  height: 250px;
+}
+article p {
+  text-align: right;
+}
+body>main {
     display: flex;
-    align-items: center;
-    text-align: center;
-
-    color: #DEC125;
-
-    border: 1px solid #DEC125;
-}
-a {
-    width: 716px;
-    height: 56px;
-    margin-left: 366px;
-    margin-top: 816px;
-
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 32px;
-    line-height: 39px;
-    text-decoration-line: underline;
-
-    color: #000000;
-}
-.link {
-    padding-bottom: 24px;
-}
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100vh - 7rem);
+    padding: 1rem 0;
+  }
+  
+  article {
+    padding: 2rem;
+    overflow: hidden;
+  }
+  
+  article div {
+    padding: 1rem;
+  }
+  
+  
+  @media (min-width: 1200px) {
+    body>main {
+      padding: 2rem 0;
+    }
+  
+    article div {
+      padding: 2rem;
+      
+    }
+  }

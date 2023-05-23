@@ -1,33 +1,17 @@
-import '../styles/app.css';
-import Button from './Button';
 import Header from './Header';
-import Input from './Input';
 
-const Form = () => {
+const Form = (props) => {
     return (
-        <article>
-            <div>
-                <form>
-                    <Header/>
-                    <input
-                    type="text"
-                    name="email"
-                    placeholder="E-mail"
-                    required
-                    />
-                    <br/>
-                    <input
-                    type="password"
-                    name="password"
-                    placeholder="Hasło"
-                    aria-label="Password"
-                    required
-                    />
-                    
-                    <button type="submit" class="contrast" onclick="event.preventDefault()">Wyślij</button>
-                </form>
-            </div>
-      </article>
+        <main class="container">
+            <article>
+                <div>
+                    <Header h1={props.h1} h2={props.h2}/>
+                    <form>
+                        {props.children}
+                    </form>
+                </div>
+            </article>
+        </main>
     );
 }
 
