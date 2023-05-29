@@ -12,10 +12,7 @@ class CustomUserManager(BaseUserManager):
         if not email:
             raise ValueError("Users require an email field")
         email = self.normalize_email(email)
-        if type is not None:
-            user = self.model(email=email, type=type, **extra_fields)
-        else:
-            user = self.model(email=email, **extra_fields)
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -23,10 +20,7 @@ class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
-        if type is not None:
-            return self._create_user(email, password, **extra_fields)
-        else:
-            return self._create_user(email, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
     def _create_superuser(self, email, password, **extra_fields):
         if not email:
@@ -75,3 +69,8 @@ class User(AbstractUser):
 #         proxy = True
 #         verbose_name = _("Grupa")
 #         verbose_name_plural = _("Grupy")
+
+# class BlockEntry(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     blocked_user = models.ForeignKey(User, related_name="blocked_users", on_delete=models.CASCADE)
+#     note = models.CharField(max_length=255, blank=True)
