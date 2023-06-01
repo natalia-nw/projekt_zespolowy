@@ -25,17 +25,15 @@ class UserItemCreateSerializer(ItemSerializer):
         fields = "__all__"
 
 
-class UserItemSerializer(ItemSerializer):
-    priv_desc = serializers.SerializerMethodField()
+class AuthorUserItemSerializer(ItemSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Item
         fields = "__all__"
 
-    def get_priv_desc(self, obj):
-        # Private description only available to the author
-        user = self.context['request'].user
-        if obj.user == user:
-            return obj.priv_desc
-        else:
-            return None
+
+class UserItemSerializer(AuthorUserItemSerializer):
+    class Meta:
+        model = Item
+        exclude = ("priv_desc",)

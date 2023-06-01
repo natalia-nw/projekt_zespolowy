@@ -9,6 +9,7 @@ from items.serializers import ItemSerializer, UserItemSerializer, UserItemCreate
 class ItemList(generics.ListCreateAPIView):
     serializer_class = ItemSerializer
     name = "items"
+    filterset_fields = ["public"]
     search_fields = ["name", "category"]
     ordering_fields = ["id", "name", "category", "created_at", "updated_at"]
     permission_classes = [IsAuthenticated, ItemAccess]
@@ -53,6 +54,8 @@ class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer_class(self):
         if self.request.user.is_staff:
             return ItemSerializer
+        if self.request.user == self.get_object().user:
+            return UserItemCreateSerializer
         return UserItemSerializer
 
     def get_queryset(self):

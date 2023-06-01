@@ -33,17 +33,19 @@ def email_new_proposal_owner_user(item_name, item_receiver, date_start, date_sto
     return email
 
 
-def email_updated_agreement_no_user(item_name, item_owner, date_stop) -> dict:
+def email_updated_agreement_no_user(item_name, item_owner, receiver_email, date_start, date_stop, status) -> dict:
     email = {"subject": "Nowe informacje o pożyczonym przedmiocie",
              "body": f"Przedmiot: {item_name}\n Właściciel: {item_owner}\n"
-                     f"Termin oddania: {date_stop}\n "
+                     f"E-mail otrzymującego przedmiot: {receiver_email}\nStatus: {status}\n"
+                     f"Termin wypożyczenia: {date_start}\n Termin oddania: {date_stop}\n"
                      f"Załóż konto z tym samym emailem w serwisie Pożycz, zapomnij,"
-                     f"a wypożyczenie zostanie przypisane do swojego konta."}
+                     f"a będziesz mógł przypisać wypożyczenie do swojego konta."}
     return email
 
 
-def email_updated_agreement_user(item_name, item_owner, date_stop) -> dict:
+def email_updated_agreement(item_name, item_owner, receiver_email, date_start, date_stop, status) -> dict:
     email = {"subject": "Nowe informacje o pożyczonym przedmiocie",
-             "body": f"Przedmiot: {item_name}\n Właściciel: {item_owner}\n"
-                     f"Termin oddania: {date_stop}\n\n Administracja Pożycz, zapomnij"}
+             "body": f"Przedmiot: {item_name}\nWłaściciel: {item_owner}\n"
+                     f"E-mail otrzymującego przedmiot: {receiver_email}\nStatus: {status}\n"
+                     f"Termin wypożyczenia: {date_start}\nTermin oddania: {date_stop}\n"}
     return email

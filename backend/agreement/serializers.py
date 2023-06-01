@@ -6,23 +6,11 @@ from agreement.models import Agreement
 
 
 class AgreementSerializer(serializers.ModelSerializer):
-    # item = serializers.PrimaryKeyRelatedField(read_only=True)
-    # receiver = serializers.PrimaryKeyRelatedField(read_only=True)
-    # status = serializers.CharField(read_only=True)
-    # priv_notes = serializers.CharField(required=False, label="Notatka prywatna")
 
     class Meta:
         model = Agreement
         fields = "__all__"
-        read_only_fields = ('item', 'receiver', 'status', 'priv_notes')
-
-    def get_priv_notes(self, obj):
-        # Private notes only available to the item owner
-        user = self.context['request'].user
-        if obj.item.user == user:
-            return obj.priv_notes
-        else:
-            return None
+        read_only_fields = ('item', 'receiver', 'status')
 
     def validate(self, values):
         date_start = values.get('date_start', now().date())
@@ -35,20 +23,22 @@ class AgreementSerializer(serializers.ModelSerializer):
         return values
 
 
-# class ItemAgreementCreateSerializer(AgreementSerializer):
-#     item = serializers.PrimaryKeyRelatedField(read_only=True)
-#     receiver = serializers.PrimaryKeyRelatedField(read_only=True)
-#     status = serializers.CharField(read_only=True)
-#     priv_notes = serializers.CharField(required=False)
-#
-#     class Meta:
-#         model = Agreement
-#         fields = "__all__"
-#         # exclude = ['item', 'receiver', 'status', 'priv_notes']
-#
-#
-# class ItemOwnerAgreementCreateSerializer(AgreementSerializer):
-#     class Meta:
-#         model = Agreement
-#         # fields = "__all__"
-#         exclude = ['item', 'receiver', 'status']
+class AgreementReceiverSerializer(AgreementSerializer):
+    class Meta:
+        model = Agreement
+        exclude = ('item', 'receiver', 'priv_notes')
+        read_only_fields = ('status',)
+
+
+class AgreementOwnerUpdateSerializer(AgreementSerializer):
+    class Meta:
+        model = Agreement
+        fields = "__all__"
+        read_only_fields = ('item', 'receiver')
+
+
+class AgreementReceiverUpdateSerializer(AgreementReceiverSerializer):
+    class Meta:
+        model = Agreement
+        exclude = ('priv_notes',)
+        read_only_fields = ('item', 'receiver', 'receiver_email', 'notes', 'date_start', 'date_stop')
