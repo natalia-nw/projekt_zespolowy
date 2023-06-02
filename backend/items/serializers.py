@@ -25,15 +25,7 @@ class UserItemCreateSerializer(ItemSerializer):
         fields = "__all__"
 
 
-class AuthorUserItemSerializer(ItemSerializer):
-    user = serializers.PrimaryKeyRelatedField(read_only=True)
-
-    class Meta:
-        model = Item
-        fields = "__all__"
-
-
-class UserItemSerializer(AuthorUserItemSerializer):
+class UserItemSerializer(UserItemCreateSerializer):
     class Meta:
         model = Item
         exclude = ("priv_desc",)

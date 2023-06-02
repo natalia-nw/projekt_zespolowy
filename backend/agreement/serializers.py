@@ -3,6 +3,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from agreement.models import Agreement
+from items.serializers import ItemSerializer, UserItemSerializer
 
 
 class AgreementSerializer(serializers.ModelSerializer):
@@ -31,6 +32,8 @@ class AgreementReceiverSerializer(AgreementSerializer):
 
 
 class AgreementOwnerUpdateSerializer(AgreementSerializer):
+    item = ItemSerializer(read_only=True)
+
     class Meta:
         model = Agreement
         fields = "__all__"
@@ -38,6 +41,8 @@ class AgreementOwnerUpdateSerializer(AgreementSerializer):
 
 
 class AgreementReceiverUpdateSerializer(AgreementReceiverSerializer):
+    item = UserItemSerializer(read_only=True)
+
     class Meta:
         model = Agreement
         exclude = ('priv_notes',)

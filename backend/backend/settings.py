@@ -99,7 +99,11 @@ DATABASES = {
     }
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '992a2e18638669'
+EMAIL_HOST_PASSWORD = '755dc9502d61c3'
+EMAIL_PORT = '2525'
 DEFAULT_FROM_EMAIL = "pozyczzapomnij@example.com"
 
 # Password validation

@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from django.shortcuts import get_object_or_404
 from django.utils.timezone import now
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
@@ -51,53 +52,48 @@ class AgreementList(generics.ListCreateAPIView):
         # Create agreement based on item ID in URL
         # Fill some fields automatically based on item fields, email users
         item_id = self.kwargs.get("item_id")
-        if item_id:
-            try:
-                item = Item.objects.get(id=item_id)
-            except Item.DoesNotExist:
-                raise ValidationError("Taki przedmiot nie istnieje lub nie masz do niego uprawnień.")
-
-            # Check for collisions
-            date_start = serializer.validated_data.get("date_start", now().date())
-            date_stop = serializer.validated_data.get("date_stop", now().date())
-            if Agreement.objects.filter(item=item, status__in=[AgreementStatus.OWNER, AgreementStatus.RECEIVER_CONFIRMED],
-                                        date_stop__gt=date_start,
-                                        date_start__lt=date_stop
-                                        ).exclude(date_start=date_stop).exists():
-                raise ValidationError("Kolizja dat wśród innych wypożyczeń. "
-                                      "Wypróbuj inny termin.")
-            serializer.validated_data["item"] = item
-
-            # Link user, set fields, save, send emails
-            if item.user == self.request.user:
-                serializer.validated_data["status"] = AgreementStatus.OWNER
-                receiver_email = serializer.validated_data.get("receiver_email")
-                if receiver_email:
-                    try:
-                        receiver_user = User.objects.get(email=receiver_email)
-                        serializer.validated_data["receiver"] = receiver_user
-                        email = email_new_agree_receiver_user(item.name, item.user.email, date_start, date_stop)
-                    except User.DoesNotExist:
-                        email = email_new_agree_receiver(item.name, item.user.email, date_start, date_stop)
-                    serializer.save()
-                    send_mail(email["subject"], email["body"], from_email=None, recipient_list=[receiver_email])
-                else:
-                    serializer.save()
-            elif item.public:
-                serializer.validated_data["status"] = AgreementStatus.RECEIVER
-                serializer.validated_data["receiver"] = self.request.user
-                serializer.validated_data["receiver_email"] = self.request.user.email
-                serializer.save()
-
-                email = email_new_proposal_receiver_user(item.name, item.user.email, date_start, date_stop)
-                self.request.user.email_user(email["subject"], email["body"])
-
-                email = email_new_proposal_owner_user(item.name, self.request.user.email, date_start, date_stop)
-                item.user.email_user(email["subject"], email["body"])
-            else:
-                raise ValidationError("Taki przedmiot nie istnieje lub nie masz do niego uprawnień.")
-        else:
+        if not item_id:
             raise ValidationError("Należy podać ID przedmiotu w URL: items/<id>/agreements")
+        item = get_object_or_404(Item, id=item_id)
+
+        # Check for collisions
+        date_start = serializer.validated_data.get("date_start", now().date())
+        date_stop = serializer.validated_data.get("date_stop", now().date())
+        if Agreement.objects.filter(item=item, status__in=[AgreementStatus.OWNER, AgreementStatus.RECEIVER_CONFIRMED],
+                                    date_stop__gt=date_start,
+                                    date_start__lt=date_stop
+                                    ).exclude(date_start=date_stop).exists():
+            raise ValidationError("Kolizja dat wśród innych wypożyczeń. "
+                                  "Wypróbuj inny termin.")
+
+        # Link user, set fields, save, send emails
+        serializer.validated_data["item"] = item
+        if item.user == self.request.user:
+            serializer.validated_data["status"] = AgreementStatus.OWNER
+            receiver_email = serializer.validated_data.get("receiver_email")
+            receiver_user = User.objects.filter(email=receiver_email).first()  # email is unique
+            if receiver_user:
+                serializer.validated_data["receiver"] = receiver_user
+                email = email_new_agree_receiver_user(item.name, item.user.email, date_start, date_stop)
+            else:
+                email = email_new_agree_receiver(item.name, item.user.email, date_start, date_stop)
+            serializer.save()
+            if receiver_email:
+                send_mail(email["subject"], email["body"], from_email=None, recipient_list=[receiver_email])
+
+        elif item.public:
+            serializer.validated_data["status"] = AgreementStatus.RECEIVER
+            serializer.validated_data["receiver"] = self.request.user
+            serializer.validated_data["receiver_email"] = self.request.user.email
+            serializer.save()
+
+            email = email_new_proposal_receiver_user(item.name, item.user.email, date_start, date_stop)
+            self.request.user.email_user(email["subject"], email["body"])
+
+            email = email_new_proposal_owner_user(item.name, self.request.user.email, date_start, date_stop)
+            item.user.email_user(email["subject"], email["body"])
+        else:
+            raise ValidationError("Nie masz uprawnień do tego przedmiotu.")
 
 
 class AgreementDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -108,7 +104,7 @@ class AgreementDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer_class(self):
         item_id = self.kwargs.get("item_id")
         if item_id and self.request.method in ["PUT", "PATCH"]:
-            if Item.objects.get(id=item_id).user == self.request.user:
+            if get_object_or_404(Item, id=item_id).user == self.request.user:
                 return AgreementOwnerUpdateSerializer
             return AgreementReceiverUpdateSerializer
         return self.serializer_class
