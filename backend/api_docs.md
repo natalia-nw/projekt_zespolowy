@@ -8,7 +8,7 @@ Token endpoints: https://djoser.readthedocs.io/en/latest/token_endpoints.html
 ## GET, POST: /items
 *Filtering, ordering, searching available.*
 
-**Permissions**: login required, list only items associated with user (taker/giver).
+**Permissions**: login required, list only items associated with owner user.
 
 **Function**: Returns a list of user's items, can add new item. Can make item public.
 
@@ -34,14 +34,14 @@ Token endpoints: https://djoser.readthedocs.io/en/latest/token_endpoints.html
 
 **Function**: Returns list of all agreements, made as taker or giver.
 
-## GET, PUT: /items/{item_id}/agreements/
+## GET, POST: /items/{item_id}/agreements/
 *Filtering, ordering, searching available.*
 
 **Permissions**: login required, list only agreements associated with specific item user (taker/giver). Field permissions depend on user type (taker, giver, admin) and other agreement fields.
 
-**Function**: Returns list of all agreements, made as taker or giver. Only one confirmed agreement can exist during the days specified. Links taker user, if specified email is confirmed. If the item is public and taker creates agreement, its status must be confirmed or cancelled by owner. Sends emails to taker and giver on creation.
+**Function**: Returns list of all agreements, made as taker or giver. Can create new agreement. Only one confirmed agreement can exist during the days specified. Links taker user, if specified email is confirmed. If the item is public and taker creates agreement, its status must be confirmed or cancelled by owner. Sends emails to taker and giver on creation.
 
-## GET, PATCH, DELETE: /items/{item_id}/agreements/{id}
+## GET, PUT, PATCH, DELETE: /items/{item_id}/agreements/{id}
 **Permissions**: login required, list only agreements associated with user (taker/giver). Field permissions depend on user type (taker, giver, admin) and other agreement fields.
 
 **Function**: Returns a single editable agreement. Taker can only cancel the status once and only if the agreement is not expired or already confirmed. Sends emails to taker and giver on update.

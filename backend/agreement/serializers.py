@@ -19,8 +19,8 @@ class AgreementSerializer(serializers.ModelSerializer):
         if date_start < now().date() or date_stop < now().date():
             raise ValidationError("Żadna z dat nie może być przeszła.")
         if date_start > date_stop:
-            raise ValidationError("Data wypożyczenia musi być "
-                                  "wcześniejsza od daty terminu oddania.")
+            raise ValidationError("Data wypożyczenia nie może być "
+                                  "późniejsza od daty terminu oddania.")
         return values
 
 
@@ -38,6 +38,14 @@ class AgreementOwnerUpdateSerializer(AgreementSerializer):
         model = Agreement
         fields = "__all__"
         read_only_fields = ('item', 'receiver')
+
+    def validate(self, values):
+        date_start = values.get('date_start', now().date())
+        date_stop = values.get('date_stop', now().date())
+        if date_start > date_stop:
+            raise ValidationError("Data wypożyczenia nie może być "
+                                  "późniejsza od daty terminu oddania.")
+        return values
 
 
 class AgreementReceiverUpdateSerializer(AgreementReceiverSerializer):

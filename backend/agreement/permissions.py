@@ -14,7 +14,7 @@ class AgreementAccess(BasePermission):
             if request.method in SAFE_METHODS:
                 return True
             allowed_keys = ['status']
-            if request.method not in ['PUT', 'DELETE'] or all(key in allowed_keys for key in request.data):
+            if request.method != 'DELETE' and all(key in allowed_keys for key in request.data):
                 if obj.status == AgreementStatus.RECEIVER_CANCELLED:
                     raise PermissionDenied(detail="Już anulowano to zapytanie.")
                 if obj.date_stop > now().date():
@@ -26,10 +26,6 @@ class AgreementAccess(BasePermission):
                     return True
             raise PermissionDenied(detail="Możesz tylko anulować zapytanie.")
         else:
-            disallowed_keys = ['receiver', 'item']
-            if request.method == 'PUT' or any(key in disallowed_keys for key in request.data):
-                raise PermissionDenied(detail="Nie można ręcznie zmienić danych o użytkowniku i przedmiocie. "
-                                              "Możesz edytować przedmiot w menu przedmiotów.")
             if obj.status == AgreementStatus.OWNER and request.data.get('status'):
                 raise PermissionDenied(detail="Nie można zmienić statusu wpisu właściciela.")
             if obj.status != AgreementStatus.OWNER and request.data.get('status') == AgreementStatus.OWNER:
