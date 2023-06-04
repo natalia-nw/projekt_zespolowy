@@ -27,8 +27,8 @@ class AgreementSerializer(serializers.ModelSerializer):
 class AgreementReceiverSerializer(AgreementSerializer):
     class Meta:
         model = Agreement
-        exclude = ('item', 'receiver', 'priv_notes')
-        read_only_fields = ('status',)
+        exclude = ('priv_notes',)
+        read_only_fields = ('status', 'item', 'receiver')
 
 
 class AgreementOwnerUpdateSerializer(AgreementSerializer):
