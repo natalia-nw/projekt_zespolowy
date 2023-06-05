@@ -110,7 +110,9 @@ class AgreementDetail(generics.RetrieveUpdateDestroyAPIView):
         return self.serializer_class
 
     def get_queryset(self):
-        return Agreement.objects.filter(id=self.kwargs.get("pk"))
+        qs1 = Agreement.objects.filter(id=self.kwargs.get("pk"), item__user=self.request.user)
+        qs2 = Agreement.objects.filter(id=self.kwargs.get("pk"), receiver=self.request.user)
+        return qs1 | qs2
 
     def partial_update(self, request, *args, **kwargs):
         user = self.request.user

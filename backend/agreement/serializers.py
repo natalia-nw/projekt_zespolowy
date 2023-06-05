@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from agreement.models import Agreement
-from items.serializers import ItemSerializer, UserItemSerializer
+from items.serializers import ItemSerializer, ReceiverItemSerializer
 
 
 class AgreementSerializer(serializers.ModelSerializer):
@@ -49,7 +49,7 @@ class AgreementOwnerUpdateSerializer(AgreementSerializer):
 
 
 class AgreementReceiverUpdateSerializer(AgreementReceiverSerializer):
-    item = UserItemSerializer(read_only=True)
+    item = ReceiverItemSerializer(read_only=True)
 
     class Meta:
         model = Agreement

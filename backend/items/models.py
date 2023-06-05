@@ -1,3 +1,6 @@
+import os
+import uuid
+
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
@@ -14,7 +17,7 @@ class Item(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.CharField(verbose_name=_("Kategoria"), choices=Category.choices,
                                 blank=True, null=True, max_length=50)
-    public = models.BooleanField(verbose_name=_("Ogłoszenie publiczne"),default=False)
+    public = models.BooleanField(verbose_name=_("Ogłoszenie publiczne"), default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -22,9 +25,16 @@ class Item(models.Model):
         return self.name
 
 
+def generate_random_filename(instance, filename):
+    # Generate a random filename using UUID
+    extension = os.path.splitext(filename)[1]  # Get the file extension
+    random_filename = f"items/{uuid.uuid4().hex}{extension}"
+    return random_filename
+
+
 class ItemImage(models.Model):
-    item = models.ForeignKey(Item, verbose_name=_("Przedmiot"), on_delete=models.CASCADE)
-    image = models.ImageField(verbose_name=_("Zdjęcie"), upload_to='images/')
+    item = models.ForeignKey(Item, verbose_name=_("Przedmiot"), on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(verbose_name=_("Zdjęcie"), upload_to=generate_random_filename)
 
     def __str__(self):
         return self.item.name

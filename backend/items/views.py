@@ -1,12 +1,14 @@
 from rest_framework import generics
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from items.models import Item
 from items.permissions import ItemAccess
-from items.serializers import ItemSerializer, UserItemSerializer, UserItemCreateSerializer
+from items.serializers import ItemSerializer, ReceiverItemSerializer, UserItemCreateSerializer, UserItemUpdateSerializer
 
 
 class ItemList(generics.ListCreateAPIView):
+    parser_class = [MultiPartParser, FormParser]
     serializer_class = ItemSerializer
     name = "items"
     filterset_fields = ["public"]
@@ -40,14 +42,15 @@ class ItemPublicList(generics.ListAPIView):
     def get_serializer_class(self):
         if self.request.user.is_staff:
             return ItemSerializer
-        return UserItemSerializer
+        return ReceiverItemSerializer
 
     def get_queryset(self):
         return Item.objects.filter(public=True)
 
 
 class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = UserItemSerializer
+    parser_class = [MultiPartParser, FormParser]
+    serializer_class = ReceiverItemSerializer
     name = "item-detail"
     permission_classes = [ItemAccess]
 
@@ -55,8 +58,8 @@ class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
         if self.request.user.is_staff:
             return ItemSerializer
         if self.request.user == self.get_object().user:
-            return UserItemCreateSerializer
-        return UserItemSerializer
+            return UserItemUpdateSerializer
+        return ReceiverItemSerializer
 
     def get_queryset(self):
         if self.request.user.is_staff:
