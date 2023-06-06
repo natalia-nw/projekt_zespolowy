@@ -24,6 +24,8 @@ const NewAgreement = () => {
         })
         console.log({dateStart, dateStop});
         navigate('/wypozyczenia');
+        window.location.reload(false);
+        alert('Dodano pomyślnie!')
     }
     return (
         <Form h1={"Nowe wpożyczenie"} h2={"Dodaj nowe wypożyczenie dla danego przedmiotu"} onSubmit={addHire}>

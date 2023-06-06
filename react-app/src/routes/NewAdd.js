@@ -1,6 +1,8 @@
 import Form from "../components/Form";
 import { useState } from "react";
 import ApiURL from "../ApiURL";
+import { useNavigate } from "react-router-dom";
+import HttpHeader from "../HttpHeader";
 
 const NewAdd = () => {
     const [name, setName] = useState("");
@@ -8,14 +10,13 @@ const NewAdd = () => {
     const [privDesc, setPrivDesc] = useState("");
     const [category, setCategory] = useState("");
     const [user, setUser] = useState("");
+    const navigate = useNavigate();
     const addAdd = async(e) => {
         e.preventDefault();
-        setUser(sessionStorage.setItem('email'));
+        setUser(sessionStorage.getItem('email'));
         fetch(`${ApiURL}/items/`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: HttpHeader,
             body: JSON.stringify({
                 name: name,
                 desc: desc,
@@ -25,6 +26,9 @@ const NewAdd = () => {
                 user: user
             })
         })
+        navigate('/');
+        window.location.reload(false);
+        alert('Dodano pomyślnie!');
     }
     return (
         <Form h1={"Nowe ogłoszenie"} h2={"Dodaj ogłoszenie o przedmiocie, który chcesz wypożyczyć"} onSubmit={addAdd}>

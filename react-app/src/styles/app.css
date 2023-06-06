@@ -107,8 +107,18 @@ body>main {
   }
   .hire-item {
     clear: left;
+    text-align: center;
   }
   .message {
     color: #ff0000;
     text-align: center;
+  }
+  .title {
+    text-align: center;
+  }
+  .link-button {
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: 45px;
+    left: 50%;
   }
