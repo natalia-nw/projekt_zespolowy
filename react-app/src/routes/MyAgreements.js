@@ -53,29 +53,35 @@ const MyAgreements = () => {
                     agreements.map((agreement) => 
                     <Element id={agreement.id}>
                         <div className='hire-item'>
+                            {agreement.item.images.map((image) => 
+                            <a href={image.image}><img src={image.image} alt='obrazek'/></a>)}
+                            <p>Przedmiot: {agreement.item.name}</p>
+                            <p>Kategoria: {agreement.item.category}</p>
                             <p>Uwagi: {agreement.notes}</p>
-                            <p>Przedmiot: {agreement.item}</p>
                             <p>Status: {agreement.status}</p>
                             <p> Dla: {agreement.receiver_email} </p>
                             <p>Od: {agreement.date_start}</p>
                             <p>Do: {agreement.date_stop}</p>
                         </div>
                         {console.log("receiver=", agreement.receiver)}
-                        {agreement.status !== "Właściciel" && agreement.receiver_email !== sessionStorage.getItem('email')? 
+                        {agreement.status === "Zapytanie" && agreement.receiver_email !== sessionStorage.getItem('email') ? 
+                        <>
+                        <p className="title">Prośba o wypożyczenie</p>
                         <table>
                         <tr>
                         <td>
-                        <form onSubmit={() => changeStatus(agreement.item, agreement.id, agreement.date_start, agreement.date_stop, "Zapytanie potwierdzone")}>
+                        <form onSubmit={() => changeStatus(agreement.item.id, agreement.id, agreement.date_start, agreement.date_stop, "Zapytanie potwierdzone")}>
                             <button className="accept">Potwierdź</button>
                         </form>
                         </td>
                         <td>
-                        <form onSubmit={() => changeStatus(agreement.item, agreement.id, agreement.date_start, agreement.date_stop, "Zapytanie anulowane")}>
+                        <form onSubmit={() => changeStatus(agreement.item.id, agreement.id, agreement.date_start, agreement.date_stop, "Zapytanie anulowane")}>
                             <button className="cancel">Anuluj</button>
                         </form>
                         </td>
                         </tr>
                         </table>
+                        </>
                         : null}
                         {sessionStorage.getItem('email') !== agreement.receiver_email ? 
                         <>
