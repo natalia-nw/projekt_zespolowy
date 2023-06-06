@@ -99,7 +99,6 @@ class AgreementList(generics.ListCreateAPIView):
 class AgreementDetail(generics.RetrieveUpdateDestroyAPIView):
     name = "agreement"
     permission_classes = [IsAuthenticated, AgreementAccess]
-    serializer_class = AgreementSerializer
 
     def get_serializer_class(self):
         item_id = self.kwargs.get("item_id")
@@ -107,7 +106,7 @@ class AgreementDetail(generics.RetrieveUpdateDestroyAPIView):
             if get_object_or_404(Item, id=item_id).user == self.request.user:
                 return AgreementOwnerUpdateSerializer
             return AgreementReceiverUpdateSerializer
-        return self.serializer_class
+        return AgreementSerializer
 
     def get_queryset(self):
         qs1 = Agreement.objects.filter(id=self.kwargs.get("pk"), item__user=self.request.user)

@@ -29,7 +29,10 @@ class ItemSerializer(serializers.ModelSerializer):
                   "images", "uploaded_images", "image_ids_to_delete"]
 
     def create(self, validated_data):
-        uploaded_images = validated_data.pop("uploaded_images")
+        try:
+            uploaded_images = validated_data.pop("uploaded_images", [])
+        except KeyError:
+            uploaded_images = []
         item = Item.objects.create(**validated_data)
 
         for image in uploaded_images:

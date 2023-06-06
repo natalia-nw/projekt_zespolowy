@@ -9,7 +9,6 @@ from items.serializers import ItemSerializer, ReceiverItemSerializer, UserItemCr
 
 class ItemList(generics.ListCreateAPIView):
     parser_class = [MultiPartParser, FormParser]
-    serializer_class = ItemSerializer
     name = "items"
     filterset_fields = ["public"]
     search_fields = ["name", "category"]
@@ -33,7 +32,6 @@ class ItemList(generics.ListCreateAPIView):
 
 
 class ItemPublicList(generics.ListAPIView):
-    serializer_class = ItemSerializer
     name = "items"
     search_fields = ["name", "category"]
     ordering_fields = ["id", "name", "category", "created_at", "updated_at"]
@@ -50,7 +48,6 @@ class ItemPublicList(generics.ListAPIView):
 
 class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
     parser_class = [MultiPartParser, FormParser]
-    serializer_class = ReceiverItemSerializer
     name = "item-detail"
     permission_classes = [ItemAccess]
 
