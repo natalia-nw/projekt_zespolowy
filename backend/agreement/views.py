@@ -23,7 +23,6 @@ User = get_user_model()
 
 
 class AgreementList(generics.ListCreateAPIView):
-    serializer_class = AgreementSerializer
     name = "agreements"
     filterset_fields = ["status", "receiver_email"]
     search_fields = ["name", "category", "item"]
@@ -33,7 +32,7 @@ class AgreementList(generics.ListCreateAPIView):
     def get_serializer_class(self):
         item_id = self.kwargs.get("item_id")
         if item_id and Item.objects.get(id=item_id).user == self.request.user:
-            return self.serializer_class
+            return AgreementSerializer
         return AgreementReceiverSerializer
 
     def get_queryset(self):

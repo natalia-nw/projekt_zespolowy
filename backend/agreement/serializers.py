@@ -3,10 +3,11 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from agreement.models import Agreement
-from items.serializers import ItemSerializer, ReceiverItemSerializer
+from items.serializers import ItemSerializer, ReceiverItemSerializer, UserItemCreateSerializer
 
 
 class AgreementSerializer(serializers.ModelSerializer):
+    item = UserItemCreateSerializer(read_only=True)
 
     class Meta:
         model = Agreement
@@ -25,10 +26,12 @@ class AgreementSerializer(serializers.ModelSerializer):
 
 
 class AgreementReceiverSerializer(AgreementSerializer):
+    item = ReceiverItemSerializer(read_only=True)
+
     class Meta:
         model = Agreement
         exclude = ('priv_notes',)
-        read_only_fields = ('status', 'item', 'receiver')
+        read_only_fields = ('status', 'receiver')
 
 
 class AgreementOwnerUpdateSerializer(AgreementSerializer):
