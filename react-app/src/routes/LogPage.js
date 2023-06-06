@@ -76,7 +76,7 @@ const LogPage = () => {
                 required
                 /> 
                 <br/>             
-                <button type="submit" className="contrast">Wyślij</button>
+                <button type="submit" className="contrast">Zaloguj się</button>
                 <Link label='Nie masz konta? Zarejestruj się' href='./rejestracja'/>
                 <Link label='Nie pamiętasz hasła?' href='/przypomnijHaslo'/>
             </Form>

@@ -100,8 +100,8 @@ const Profile = () => {
       {imageUrl && <img src={imageUrl} alt="brak" />}
       <button type="submit">Zatwierdź</button>
       {console.log(image)}
-      <Button label={"Zmień nazwę użytkownika"} href={"/zmienNazweUzytkownika"}/>
-      <Button label={"Zmień hasło"} href={"/zmienHaslo"}/>
+      <div class="title"><Button label={"Zmień nazwę użytkownika"} href={"/zmienNazweUzytkownika"}/><Button label={"Zmień hasło"} href={"/zmienHaslo"}/></div>
+      
     </Form>
   );
 };

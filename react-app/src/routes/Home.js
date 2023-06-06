@@ -104,7 +104,7 @@ const Home = () => {
             </Element>
           ))
         ) : (
-          <h1>Nie ma jeszcze żadnych ogłoszeń</h1>
+          <div class="title"><h1>Nie ma jeszcze żadnych ogłoszeń</h1></div>
         )}
       </ul>
     </>
