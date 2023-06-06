@@ -1,6 +1,5 @@
 import Element from "../components/Element";
 import Headers from "../components/Headers";
-import odkurzacz from "../img/odkurzacz.jpg";
 import ApiURL from "../ApiURL";
 import { useState, useEffect } from "react";
 import Button from "../components/Button";
@@ -8,24 +7,26 @@ import { useNavigate} from "react-router-dom";
 import HttpHeader from "../HttpHeader";
 import DeleteButton from "../components/DeleteButton";
 import EditButton from "../components/EditButton";
+import Describe from "../components/Describe";
 
 const MyItems = () => {
     const [items, setItems] = useState([]);
     const navigate = useNavigate();
     const goEdit = (id) => {
         sessionStorage.setItem("ItemId", id);
-        navigate("/EditItem");
+        navigate("/edytujPrzedmiot");
     }
     const deleteItem = (id) => {
         fetch(`${ApiURL}/items/${id}`, {
             method: 'DELETE',
             headers: HttpHeader,
         })
+        window.location.reload(false);
 
     }
     const HireIt = (id) => { 
         sessionStorage.setItem("ItemId", id);
-        navigate("/NewAgreement");
+        navigate("/noweWypozyczenie");
     }
 
     useEffect(() => {
@@ -43,7 +44,7 @@ const MyItems = () => {
     return (
         <>
             <Headers h1={"Moje przedmioty"}/>
-            <Button label={"Nowy przedmiot"} href={"newItem"}/>
+            <Button label={"Nowy przedmiot"} href={"/nowyPrzedmiot"}/>
             <ul>
                 {items.length > 0 ? (
                     items.map((item) =>
@@ -51,13 +52,12 @@ const MyItems = () => {
                         <DeleteButton fn={() => deleteItem(item.id)}/>
                         <EditButton fn={() => goEdit(item.id)}/>
                         <Headers h1={item.name}/>
-                        <img src={odkurzacz} alt='obrazek'/>
-                        <div className='hire-item'>
-                            <p>Opis: {item.desc}</p>
+                        {item.images.map((image) => 
+                        <img src={image.image} alt='obrazek'/>)}
+                        <Describe category={item.category} desc={item.desc}>
                             <p>Opis prywatny: {item.priv_desc}</p>
-                            <p>Kategoria: {item.category}</p>
                             <p>Czy publiczny? {item.public ? 'tak' : 'nie'}</p>
-                        </div>
+                        </Describe>
                         <button className="agreement" onClick={() => HireIt(item.id)}>Wypożycz</button>
                     {console.log(item.name, item.id)}
                     </Element>

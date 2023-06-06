@@ -1,51 +1,55 @@
 import Form from "../components/Form";
 import ApiURL from "../ApiURL";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import HttpHeader from "../HttpHeader";
 import { useNavigate } from "react-router-dom";
 
 const AgreementRequest = () => {
-    const [status, setStatus] = useState('');
+    const receiverEmail = sessionStorage.getItem('email');
+    const [notes, setNotes] = useState("");
+    const [dateStart, setDateStart] = useState(null);
+    const [dateStop, setDateStop] = useState(null);
     const navigate = useNavigate();
-    useEffect(() => {
-        fetch(`${ApiURL}/items/${sessionStorage.getItem("ItemId")}/agreements/${sessionStorage.getItem("AgreementId")}`, {
-            method: 'GET',
-            headers: HttpHeader
-        })
-        .then(response => {
-            return response.json()
-        })
-        .then(data => {
-            //console.log(dateStart);
-        })
-    }, [])
-    const handleEdit = () => {
-        fetch(`${ApiURL}/agreements/${sessionStorage.getItem("AgreementId")}`, {
-            method: 'PUT',
+    const addHire = async(e) => {
+        e.preventDefault();
+        fetch(`${ApiURL}/items/${sessionStorage.getItem("ItemId")}/agreements/`, {
+            method: 'POST',
             headers: HttpHeader,
             body: JSON.stringify({
-                date_start: '2023-07-03',
-                date_stop: '2023-07-23',
-                status: status
+                receiver_email: receiverEmail,
+                notes: notes,
+                date_start: dateStart,
+                date_stop: dateStop
             })
         })
-        navigate('/my_hires');
-        window.location.reload(false);
+        console.log({dateStart, dateStop});
+        navigate('/wypozyczenia');
     }
     return (
-        <Form h1={"Nowe wpożyczenie"} h2={"Dodaj nowe wypożyczenie dla danego przedmiotu"} onSubmit={handleEdit}>
-            <select
-            name="status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            >
-            <option value="Zapytanie">Zapytanie otrzymującego</option>
-            <option value="Zapytanie potwierdzone"  >Zapytanie potwierdzone</option>
-            <option value="Zapytanie anulowane"  >Zapytanie anulowane</option>
-        
-            </select>
+        <Form h1={"Nowe wpożyczenie"} h2={"Dodaj nowe wypożyczenie dla danego przedmiotu"} onSubmit={addHire}>
+            <label>Dla {receiverEmail}</label>
+            <label>Notatki</label>
+            <textarea 
+            name="notes"
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            />
+            <label>Od:</label>
+            <input 
+            type="date" 
+            name="date_start"
+            value={dateStart}
+            onChange={(e) => setDateStart(e.target.value)}
+            />
+            <label>Do:</label>
+            <input 
+            type="date" 
+            name="date_stop"
+            value={dateStop}
+            onChange={(e) => setDateStop(e.target.value)}
+            />
             <button type="sumbit">Zatwierdź</button>
-            </Form>
+        </Form>
     )
 }
 

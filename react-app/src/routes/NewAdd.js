@@ -27,7 +27,7 @@ const NewAdd = () => {
         })
     }
     return (
-        <Form h1={"Nowy przedmiot"} h2={"Dodaj nowy przedmiot, który chcesz wypożyczyć"} onSubmit={addAdd}>
+        <Form h1={"Nowe ogłoszenie"} h2={"Dodaj ogłoszenie o przedmiocie, który chcesz wypożyczyć"} onSubmit={addAdd}>
         <label>Nazwa</label>
         <input 
         type="text" 

@@ -22,7 +22,7 @@ const RegPage = () => {
             re_password: rePassword
         }),
     })
-    navigate('/auth/login');
+    navigate('/logowanie');
     }
     return (
     <>
@@ -52,7 +52,7 @@ const RegPage = () => {
             required
             />
             <button type="submit" className="contrast">Zarejestruj się</button>
-            <Link label='Masz już konto? Zaloguj się!' href='/auth/login'/>
+            <Link label='Masz już konto? Zaloguj się!' href='/logowanie'/>
         </Form>
     </>
     );

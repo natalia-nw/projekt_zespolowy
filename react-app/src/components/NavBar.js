@@ -1,8 +1,6 @@
-//import { useContext, useState } from "react";
 import session from "../session";
 
 const NavBar = () => {
-    //const {loggedIn, setLoggedIn} = useState(session);
     return (
     <nav>
         <ul>
@@ -10,15 +8,15 @@ const NavBar = () => {
                 <a href="/" className="contrast"><strong>Strona główna</strong></a>
             </li>
             <li>
-                <a href="/myAgreements" className="contrast">Moje wypożyczenia</a>
+                <a href="/wypozyczenia" className="contrast">Moje wypożyczenia</a>
             </li>
             <li>
-                <a href="/myItems" className="contrast">Moje przedmioty</a>
+                <a href="/przedmioty" className="contrast">Moje przedmioty</a>
             </li>
         </ul>
         <ul>
             <li>
-                <a href="/myProfile" className="contrast">{session === 'true' ? `Profil: ${sessionStorage.getItem('email')}` : ''}</a>
+                <a href="/mojProfil" className="contrast">{session === 'true' ? `Profil: ${sessionStorage.getItem('email')}` : ''}</a>
             </li>
             <li>
                 {console.log("session=", session)}
@@ -27,10 +25,10 @@ const NavBar = () => {
                 {console.log(sessionStorage.getItem('id'))}
             </li>
             <li>
-                <a href="/auth/login" onClick={() => {sessionStorage.setItem('isLogged', 'false'); sessionStorage.setItem('Token', '');}}> {session==='true' ? 'Wyloguj się' : 'Zaloguj się'} </a>
+                <a href="/logowanie" onClick={() => {sessionStorage.setItem('isLogged', 'false'); sessionStorage.setItem('Token', ''); sessionStorage.setItem('email', '');}}> {session === 'true' ? 'Wyloguj się' : 'Zaloguj się'} </a>
             </li>
             <li>
-                <a href="/auth/registration"> {session==='true' ? '' : 'Zarejestruj się'}</a>
+                <a href="/rejestracja"> {session === 'true' ? '' : 'Zarejestruj się'}</a>
             </li>
         </ul>
     </nav>

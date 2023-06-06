@@ -3,6 +3,7 @@ import HttpHeader from "../HttpHeader";
 import ApiURL from "../ApiURL";
 import Form from "../components/Form";
 import axios from "axios";
+import Button from "../components/Button";
 
 const Profile = () => {
   const [firstName, setFirstName] = useState("");
@@ -56,13 +57,13 @@ const Profile = () => {
         setPhoneNumber(data.phone_number);
         setBio(data.bio);
         setImageUrl(data.image);
+        sessionStorage.setItem('email', data.email);
       });
 
     return () => {
-      // Zwolnienie URL obiektu pliku po zamknięciu komponentu
       URL.revokeObjectURL(imageUrl);
     };
-  }, []);
+  }, [imageUrl]);
 
   return (
     <Form h1={"Mój profil"} h2={"Tu możesz ustawić swoje dane"} onSubmit={handleEdit}>
@@ -98,6 +99,9 @@ const Profile = () => {
       <input type="file" name="image" onChange={handleImageChange} />
       {imageUrl && <img src={imageUrl} alt="brak" />}
       <button type="submit">Zatwierdź</button>
+      {console.log(image)}
+      <Button label={"Zmień nazwę użytkownika"} href={"/zmienNazweUzytkownika"}/>
+      <Button label={"Zmień hasło"} href={"/zmienHaslo"}/>
     </Form>
   );
 };

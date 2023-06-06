@@ -39,10 +39,10 @@ const EditItem = () => {
                 priv_desc: privDesc,
                 category: category,
                 public: publicItem,
-                user: user
+                user: user,
             })
         })
-        navigate("/myItems");
+        navigate("/przedmioty");
     }
     return (
         <Form h1={"Edytuj przedmiot"} h2={"Edytuj dane o przedmiocie"} onSubmit={handleEdit}>

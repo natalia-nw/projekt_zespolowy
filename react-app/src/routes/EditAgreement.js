@@ -34,7 +34,7 @@ const EditAgreement = () => {
                 date_stop: dateStop
             })
         })
-        navigate('/myAgreements');
+        navigate('/wypozyczenia');
         window.location.reload(false);
     }
     return (

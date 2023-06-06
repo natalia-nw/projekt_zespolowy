@@ -2,12 +2,12 @@ import { useState, useEffect} from "react";
 import Element from "../components/Element";
 //import Find from "../components/Find";
 import Headers from "../components/Headers";
-import odkurzacz from "../img/odkurzacz.jpg";
 import Button from "../components/Button";
 import ApiURL from "../ApiURL";
 import { useNavigate} from "react-router-dom";
 import HttpHeader from "../HttpHeader";
 import session from "../session";
+import Describe from "../components/Describe";
 
 const Home = () => {
     const [adds, setAdds] = useState([]);
@@ -51,7 +51,7 @@ const Home = () => {
     }, [id])
     const AgreementRequest = (id) => {
         sessionStorage.setItem("ItemId", id);
-        navigate("/NewAgreement");
+        navigate("/chceWypozyczyc");
     }
     const searchIt =() => {
         fetch(`${ApiURL}/items/public?search=${name}`, {
@@ -63,16 +63,6 @@ const Home = () => {
         .then(response => {
             return response.json()
         })
-        /*.then((data) => {
-            if (data.results.length > 0) {
-              setAdds(data.results);
-              setSearch(true);
-              searchRef.current = true; 
-            } else {
-              setSearch(false);
-              searchRef.current = false; 
-            }
-          });*/
     }
     return (
         <>
@@ -87,16 +77,15 @@ const Home = () => {
                     />
                 </form>
             </main>
-            <Button label={"Nowe ogłoszenie"} href={"/newAdd"}/>
+            <Button label={"Nowe ogłoszenie"} href={"/noweOgloszenie"}/>
             <ul>
                 {adds.length > 0 ? (
                 adds.map((add) => 
                 <Element id={add.id}>
-                    <Headers h1={add.name}/>
-                    <img src={odkurzacz} alt='obrazek'/>
-                    <div className='hire-item'>
-                        <p>{add.desc}</p>
-                    </div>
+                   <Headers h1={add.name}/>
+                        {add.images.map((image) => 
+                        <img src={image.image} alt='obrazek'/>)}
+                        <Describe category={add.category} desc={add.desc}/>
                     {id !== add.user ?
                     <>
                         <form onSubmit={() => AgreementRequest(add.id)}>

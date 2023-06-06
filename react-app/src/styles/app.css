@@ -105,3 +105,10 @@ body>main {
   .accept, .cancel {
     width: 180px;
   }
+  .hire-item {
+    clear: left;
+  }
+  .message {
+    color: #ff0000;
+    text-align: center;
+  }

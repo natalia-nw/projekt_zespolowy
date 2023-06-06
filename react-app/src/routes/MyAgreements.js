@@ -28,7 +28,7 @@ const MyAgreements = () => {
     const goEdit = (item, agreement) => {
         sessionStorage.setItem('ItemId', item);
         sessionStorage.setItem('AgreementId', agreement);
-        navigate("/EditAgreement");
+        navigate("/edytujWypozyczenie");
         
     }
     const changeStatus = (item, agreement, date_start, date_stop, status) => {
