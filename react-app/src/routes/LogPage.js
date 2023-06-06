@@ -77,8 +77,8 @@ const LogPage = () => {
                 /> 
                 <br/>             
                 <button type="submit" className="contrast">Wyślij</button>
-                <Link label='Nie masz konta? Zarejestruj się' href='./registration'/>
-                <Link label='Nie pamiętasz hasła?' href='/reminder'/>
+                <Link label='Nie masz konta? Zarejestruj się' href='./rejestracja'/>
+                <Link label='Nie pamiętasz hasła?' href='/przypomnijHaslo'/>
             </Form>
         </>
     );

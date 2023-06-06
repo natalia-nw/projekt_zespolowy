@@ -1,7 +1,4 @@
 import Element from "../components/Element";
-import Header from "../components/Headers";
-import odkurzacz from "../img/odkurzacz.jpg";
-//import axios from "axios";
 import ApiURL from "../ApiURL";
 import { useState, useEffect } from "react";
 import HttpHeader from "../HttpHeader";
@@ -50,15 +47,13 @@ const MyAgreements = () => {
     }
     return (
         <>
-            <Header h1={"Moje wypożyczenia"}/>
+            <h1 className="title">Moje wypożyczenia</h1>
             <ul>
                     {agreements.length > 0 ? (
                     agreements.map((agreement) => 
                     <Element id={agreement.id}>
-                        <img src={odkurzacz} alt='obrazek'/>
                         <div className='hire-item'>
                             <p>Uwagi: {agreement.notes}</p>
-                            <p>{agreement.id}</p>
                             <p>Przedmiot: {agreement.item}</p>
                             <p>Status: {agreement.status}</p>
                             <p> Dla: {agreement.receiver_email} </p>

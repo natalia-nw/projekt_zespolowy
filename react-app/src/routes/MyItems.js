@@ -15,6 +15,8 @@ const MyItems = () => {
     const goEdit = (id) => {
         sessionStorage.setItem("ItemId", id);
         navigate("/edytujPrzedmiot");
+        window.location.reload(false);
+        alert('Zmieniono pomyślnie!')
     }
     const deleteItem = (id) => {
         fetch(`${ApiURL}/items/${id}`, {
@@ -22,6 +24,7 @@ const MyItems = () => {
             headers: HttpHeader,
         })
         window.location.reload(false);
+        alert('Usunięto pomyślnie!')
 
     }
     const HireIt = (id) => { 
@@ -43,7 +46,7 @@ const MyItems = () => {
     }, [])
     return (
         <>
-            <Headers h1={"Moje przedmioty"}/>
+            <h1 className="title">Moje przedmioty</h1>
             <Button label={"Nowy przedmiot"} href={"/nowyPrzedmiot"}/>
             <ul>
                 {items.length > 0 ? (
@@ -53,7 +56,7 @@ const MyItems = () => {
                         <EditButton fn={() => goEdit(item.id)}/>
                         <Headers h1={item.name}/>
                         {item.images.map((image) => 
-                        <img src={image.image} alt='obrazek'/>)}
+                        <a href={image.image}><img src={image.image} alt='obrazek'/></a>)}
                         <Describe category={item.category} desc={item.desc}>
                             <p>Opis prywatny: {item.priv_desc}</p>
                             <p>Czy publiczny? {item.public ? 'tak' : 'nie'}</p>

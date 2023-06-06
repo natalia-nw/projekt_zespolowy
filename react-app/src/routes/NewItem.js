@@ -38,6 +38,9 @@ const NewItem = () => {
         body: formData,
       });
       navigate("/przedmioty");
+      window.location.reload(false);
+      alert('Dodano pomyślnie!')
+      
     } catch (error) {
       console.error(error);
     }
