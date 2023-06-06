@@ -1,9 +1,6 @@
-import '../styles/app.css';
-
-
-const Button = ({label}) => {
+const Button = ({label, href}) => {
     return (
-        <button type='submit'> {label} </button>
+        <a role="button" href={href}> +{label} </a>
     );
     
 }

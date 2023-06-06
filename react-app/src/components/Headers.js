@@ -1,4 +1,4 @@
-const Header = ({h1, h2}) => {
+const Headers = ({h1, h2}) => {
     return (
         <hgroup>
             <h1>{h1}</h1>
@@ -7,4 +7,4 @@ const Header = ({h1, h2}) => {
     );
 }
 
-export default Header;
+export default Headers;

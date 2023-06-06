@@ -1,7 +1,7 @@
 const Link = ({label, href}) => {
     return (
             <>
-                <a class="secondary" href={href}>{label}</a><br/>
+                <a className="secondary" href={href}>{label}</a><br/>
             </>
     );
     

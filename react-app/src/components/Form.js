@@ -1,12 +1,12 @@
-import Header from './Header';
+import Header from './Headers';
 
 const Form = (props) => {
     return (
-        <main class="container">
+        <main className="container">
             <article>
                 <div>
                     <Header h1={props.h1} h2={props.h2}/>
-                    <form>
+                    <form onSubmit={props.onSubmit}>
                         {props.children}
                     </form>
                 </div>

@@ -1,10 +1,12 @@
 const Element = (props) => {
     return (
-        <main class="container-fluid">
-                    <article>
-                        {props.children}
-                    </article>
-            </main>
+        <main className="container-fluid">
+            <article>
+                <li key={props.id}>
+                    {props.children}
+                </li>
+            </article>
+        </main>
     );
 }
 

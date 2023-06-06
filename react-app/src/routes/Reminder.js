@@ -1,16 +1,34 @@
 import Form from "../components/Form";
+import ApiURL from "../ApiURL";
+import { useState } from "react";
+
 
 const Reminder = () => {
+    const [email, setEmail] = useState("");
+    const sendEmail = async(e) => {
+        e.preventDefault();
+        fetch(`${ApiURL}/auth/users/reset_password/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: email,
+        })
+    })
+    alert('Wysłano wiadomość');
+    }
     return (
       <>
-        <Form h1={'Przypomnienie hasła'} h2={'Podaj swój adres e-mail, a my wyślemy ci nowe hasło!'}>
+        <Form h1={'Przypomnienie hasła'} h2={'Podaj swój adres e-mail, a my wyślemy ci nowe hasło!'} onSubmit={sendEmail}>
           <input
           type="text"
           name="email"
           placeholder="E-mail"
+          onChange={(e) => setEmail(e.target.value)}
           required
           />
-          <button type="submit" class="contrast" onclick="event.preventDefault()">Wyślij</button>
+          <button type="submit" className="contrast">Wyślij</button>
         </Form>
       </>
     );

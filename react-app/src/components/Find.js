@@ -1,8 +1,12 @@
 const Find = () => {
     return (
-        <main class="container">
+        <main className="container">
             <form>
-                <input type="search" name="search"/>
+                <input 
+                type="search" 
+                name="search"
+                onChange={(e) => e.target.value}
+                />
             </form>
         </main>
     )

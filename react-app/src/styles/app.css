@@ -20,7 +20,7 @@ nav {
 }
 img {
   float: left;
-  width: 150px;
+  width: 250px;
   height: 250px;
 }
 article p {
@@ -53,4 +53,55 @@ body>main {
       padding: 2rem;
       
     }
+  }
+  li {
+    clear: left;
+    display: block;
+  }
+  .input-submit, .input-submit2 {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    width: 20px;
+  }
+  article {
+    position: relative;
+  }
+  .input-submit2 {
+    bottom: 1%;
+    right: 4%;
+    position: absolute;
+  }
+  .input-submit {
+    top: 1%;
+    right: 4%;
+    position: absolute;
+  }
+  .input-submit svg, .input-submit2 svg {
+    color: #5e5e5e;
+    font-size: 20px;
+    margin-top: 2px;
+    width: 40px;
+    height: 40px;
+  }
+  .input-submit svg :hover {
+    color: #ff0000;
+  }
+  .input-submit2 svg :hover {
+    color: #001eff;
+  }
+  .agreement {
+    width: 50%;
+    margin-left: 20%;
+    margin-right: 20%;
+  }
+  .accept {
+    background-color: #00ff00;
+  }
+  .cancel {
+    background-color: #ff0000;
+  }
+  .accept, .cancel {
+    width: 180px;
   }
