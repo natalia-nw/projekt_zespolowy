@@ -85,8 +85,8 @@ const MyAgreements = () => {
                         : null}
                         {sessionStorage.getItem('email') !== agreement.receiver_email ? 
                         <>
-                            <EditButton fn={() => goEdit(agreement.item, agreement.id)}/>
-                            <DeleteButton fn={() => deleteAgreement(agreement.item, agreement.id)}/>
+                            <EditButton fn={() => goEdit(agreement.item.id, agreement.id)}/>
+                            <DeleteButton fn={() => deleteAgreement(agreement.item.id, agreement.id)}/>
                         </>
                         : null}
                     </Element>

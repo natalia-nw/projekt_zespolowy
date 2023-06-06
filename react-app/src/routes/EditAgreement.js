@@ -38,7 +38,7 @@ const EditAgreement = () => {
         window.location.reload(false);
     }
     return (
-        <Form h1={"Nowe wpożyczenie"} h2={"Dodaj nowe wypożyczenie dla danego przedmiotu"} onSubmit={handleEdit}>
+        <Form h1={"Edytuj wypożyczenie"} h2={"Możesz przedłużyć wypożyczenie i nie tylko"} onSubmit={handleEdit}>
             <textarea 
             name="notes"
             value={notes}
