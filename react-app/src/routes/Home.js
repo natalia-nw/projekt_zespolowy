@@ -72,7 +72,7 @@ const Home = () => {
   return (
     <>
       <h1 className="title">Ogłoszenia</h1>
-      <Button label={"Nowe ogłoszenie"} href={"/noweOgloszenie"} />
+      
       <main className="container">
         <form onSubmit={handleSearchSubmit}>
           <input
@@ -83,6 +83,7 @@ const Home = () => {
           />
           <button type="submit">Szukaj</button>
         </form>
+          <div class="title"><Button label={"Dodaj nowe ogłoszenie"} href={"/noweOgloszenie"} /></div>
       </main>
       <ul>
         {filteredAdds.length > 0 ? (

@@ -47,7 +47,7 @@ const MyItems = () => {
     return (
         <>
             <h1 className="title">Moje przedmioty</h1>
-            <Button label={"Nowy przedmiot"} href={"/nowyPrzedmiot"}/>
+            <div class="title"><Button label={"Dodaj nowy przedmiot"} href={"/nowyPrzedmiot"}/></div>
             <ul>
                 {items.length > 0 ? (
                     items.map((item) =>
