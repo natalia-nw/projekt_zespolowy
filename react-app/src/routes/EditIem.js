@@ -43,6 +43,8 @@ const EditItem = () => {
             })
         })
         navigate("/przedmioty");
+        window.location.reload(false);
+        alert("Zmieniono pomyślnie");
     }
     return (
         <Form h1={"Edytuj przedmiot"} h2={"Edytuj dane o przedmiocie"} onSubmit={handleEdit}>

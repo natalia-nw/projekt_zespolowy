@@ -15,8 +15,6 @@ const MyItems = () => {
     const goEdit = (id) => {
         sessionStorage.setItem("ItemId", id);
         navigate("/edytujPrzedmiot");
-        window.location.reload(false);
-        alert('Zmieniono pomyślnie!')
     }
     const deleteItem = (id) => {
         fetch(`${ApiURL}/items/${id}`, {

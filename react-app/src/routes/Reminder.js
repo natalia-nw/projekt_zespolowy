@@ -1,9 +1,17 @@
 import Form from "../components/Form";
 import ApiURL from "../ApiURL";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import session from "../session";
 
 
 const Reminder = () => {
+    const navigate = useNavigate();
+      useEffect(() => {
+        if (session === "true") {
+          navigate("/"); 
+        }
+    }, [navigate]);
     const [email, setEmail] = useState("");
     const sendEmail = async(e) => {
         e.preventDefault();

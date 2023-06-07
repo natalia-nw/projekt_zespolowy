@@ -3,6 +3,7 @@ import Link from "../components/Link";
 import ApiURL from "../ApiURL";
 import { useState, useEffect, useRef} from "react";
 import { useNavigate} from "react-router-dom";
+import session from "../session";
 
 
 const LogPage = () => {
@@ -11,6 +12,11 @@ const LogPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errMsg, setErrMsg] = useState("");
+    useEffect(() => {
+        if (session === "true") {
+          navigate("/"); 
+        }
+    }, [navigate]);
     const handleLogin = async(e) => {
         e.preventDefault();
         try {
@@ -30,7 +36,7 @@ const LogPage = () => {
                 const data = await response.json();
                 sessionStorage.setItem('Token', data.auth_token);
                 sessionStorage.setItem('email', email);
-                navigate("/");
+                navigate("/", { replace: true });
                 window.location.reload(false);
             }
             else

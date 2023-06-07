@@ -3,13 +3,10 @@ import { useParams } from "react-router-dom";
 import Header from "../components/Headers";
 import axios from "axios";
 import ApiURL from "../ApiURL";
-//import queryString from "query-string";
 
 const ActivationPage = () => {
-    //const location = useLocation();
     const { uid, token } = useParams();
   useEffect(() => {
-    //const { uid, token } = queryString.parse(location.search);
     console.log(uid, token);
     activateAccount(uid, token);
   }, [uid, token]);

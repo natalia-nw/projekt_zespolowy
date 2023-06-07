@@ -1,8 +1,9 @@
 import Link from "../components/Link";
 import Form from "../components/Form";
 import ApiURL from "../ApiURL";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import session from "../session";
 
 const RegPage = () => {
     const [email, setEmail] = useState("");
@@ -10,6 +11,11 @@ const RegPage = () => {
     const [rePassword, setRePassword] = useState("");
     const [errMsg, setErrMsg] = useState("");
     const navigate = useNavigate();
+      useEffect(() => {
+        if (session === "true") {
+          navigate("/"); 
+        }
+    }, [navigate]);
     const createAccount = async(e) => {
         e.preventDefault();
         try {
